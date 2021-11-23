@@ -6,16 +6,33 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author Angelina
  */
+@Entity
 public class Producer implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String producerName;
     private String producerCountry;
 
     public Producer() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProducerName() {
@@ -39,8 +56,4 @@ public class Producer implements Serializable {
         return "Producer{" + "producerName=" + producerName + ", producerCountry=" + producerCountry + '}';
     }
 
-
-
-
-    
 }

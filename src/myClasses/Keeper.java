@@ -8,6 +8,7 @@ package myClasses;
 import entity.Customer;
 import entity.History;
 import entity.Item;
+import entity.Producer;
 import interfaces.Keeping;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,9 +29,9 @@ public class Keeper implements Keeping {
 
     @Override
     public void saveItems(List<Item> items) {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+
         try {
             fos = new FileOutputStream("items");
             oos = new ObjectOutputStream(fos);
@@ -45,8 +46,8 @@ public class Keeper implements Keeping {
 
     @Override
     public List<Item> loadItems() {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
+        FileInputStream fis;
+        ObjectInputStream ois;
         List<Item> items = new ArrayList<>();
         try {
             fis = new FileInputStream("items");
@@ -63,10 +64,45 @@ public class Keeper implements Keeping {
     }
 
     @Override
+    public void saveProducers(List<Producer> producers) {
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+        try {
+            fos = new FileOutputStream("producers");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(producers);
+            oos.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Keeper.class.getName()).log(Level.SEVERE, "Нет такого файла", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Keeper.class.getName()).log(Level.SEVERE, "Ошибка ввода", ex);
+        }
+    }
+
+    @Override
+    public List<Producer> loadProducers() {
+        FileInputStream fis;
+        ObjectInputStream ois;
+        List<Producer> producers = new ArrayList<>();
+        try {
+            fis = new FileInputStream("producers");
+            ois = new ObjectInputStream(fis);
+            producers = (List<Producer>) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Keeper.class.getName()).log(Level.SEVERE, "Файл producers еще не создан", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Keeper.class.getName()).log(Level.SEVERE, "Ошибка чтения producers", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Keeper.class.getName()).log(Level.SEVERE, "Нет класса", ex);
+        }
+        return producers;
+    }
+
+    @Override
     public void saveCustomers(List<Customer> customers) {
-        FileOutputStream fos = null; 
-        ObjectOutputStream oos = null;
-        
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+
         try {
             fos = new FileOutputStream("customers");
             oos = new ObjectOutputStream(fos);
@@ -81,8 +117,8 @@ public class Keeper implements Keeping {
 
     @Override
     public List<Customer> loadCustomers() {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
+        FileInputStream fis;
+        ObjectInputStream ois;
         List<Customer> customers = new ArrayList<>();
         try {
             fis = new FileInputStream("customers");
@@ -100,9 +136,9 @@ public class Keeper implements Keeping {
 
     @Override
     public void saveHistories(List<History> histories) {
-        FileOutputStream fos = null; 
-        ObjectOutputStream oos = null;
-        
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+
         try {
             fos = new FileOutputStream("histories");
             oos = new ObjectOutputStream(fos);
@@ -117,8 +153,8 @@ public class Keeper implements Keeping {
 
     @Override
     public List<History> loadHistories() {
-                FileInputStream fis = null;
-        ObjectInputStream ois = null;
+        FileInputStream fis;
+        ObjectInputStream ois;
         List<History> histories = new ArrayList<>();
         try {
             fis = new FileInputStream("histories");
@@ -133,5 +169,5 @@ public class Keeper implements Keeping {
         }
         return histories;
     }
-    
+
 }

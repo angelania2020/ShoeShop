@@ -6,21 +6,42 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Angelina
  */
+@Entity
 public class Item implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String itemName;
     private String color;
-    private int size;
+    private int itemSize;
+    @OneToOne(cascade = CascadeType.ALL)
     private Producer producers;
     private int itemCost; //в центах (с точностью у double большая проблема), либо Decimal
     private int quantity;
     private int count;
-    
+
     public void Item() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getItemName() {
@@ -39,12 +60,12 @@ public class Item implements Serializable {
         this.color = color;
     }
 
-    public int getSize() {
-        return size;
+    public int getItemSize() {
+        return itemSize;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setItemSize(int itemSize) {
+        this.itemSize = itemSize;
     }
 
     public Producer getProducers() {
@@ -81,10 +102,15 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" + "itemName=" + itemName + ", color=" + color + ", size=" + size + ", producers=" + producers + ", itemCost=" + itemCost + ", quantity=" + quantity + ", count=" + count + '}';
+        return "Item{"
+                + "itemName=" + itemName
+                + ", color=" + color
+                + ", itemSize=" + itemSize
+                + ", producers=" + producers
+                + ", itemCost=" + itemCost
+                + ", quantity=" + quantity
+                + ", count=" + count
+                + '}';
     }
 
-    
-    
-    
 }
